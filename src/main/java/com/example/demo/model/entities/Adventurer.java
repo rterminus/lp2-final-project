@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.example.demo.model.equipment.Item;
-import com.example.demo.model.equipment.ItemNotFoundException;
+import com.example.demo.exception.ItemNotFoundException;
 import com.example.demo.model.quests.*;
 import com.example.demo.model.equipment.Usable;
 

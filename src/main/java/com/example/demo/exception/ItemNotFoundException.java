@@ -1,4 +1,4 @@
-package com.example.demo.model.equipment;
+package com.example.demo.exception;
 
 public class ItemNotFoundException extends Exception {
     public ItemNotFoundException(String message) {

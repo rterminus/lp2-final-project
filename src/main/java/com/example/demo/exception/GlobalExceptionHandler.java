@@ -1,6 +1,6 @@
-package com.example.demo.controller.exceptions;
+package com.example.demo.exception;
 
-import com.example.demo.model.equipment.ItemNotFoundException;
+import com.example.demo.exception.ItemNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

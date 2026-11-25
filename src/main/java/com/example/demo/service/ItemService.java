@@ -6,7 +6,7 @@ import com.example.demo.model.equipment.ItemType;
 import com.example.demo.model.equipment.Potion;
 import com.example.demo.model.equipment.Rarity;
 import com.example.demo.model.equipment.Weapon;
-import com.example.demo.model.equipment.ItemNotFoundException;
+import com.example.demo.exception.ItemNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
