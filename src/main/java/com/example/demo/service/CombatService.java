@@ -2,59 +2,63 @@ package com.example.demo.service;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.entities.Personagem;
+import com.example.demo.exception.InsufficientHealthException;
+import com.example.demo.model.entities.Adventurer;
 import com.example.demo.model.entities.enemies.Enemy;
 
-/**
- * CombatService
- */
 @Service
 public class CombatService {
-    private final PersonagemService personagemService;
+
+    private final AdventurerService adventurerService;
     private final EnemyService enemyService;
 
-    public CombatService(PersonagemService personagemService, EnemyService enemyService) {
-        this.personagemService = personagemService;
+    public CombatService(AdventurerService adventurerService, EnemyService enemyService) {
+        this.adventurerService = adventurerService;
         this.enemyService = enemyService;
     }
 
-    public Enemy atacarEnemy() {
+    public Enemy attackEnemy() {
+        Adventurer adventurer = adventurerService.getActiveAdventurer();
 
-    Personagem personagem = personagemService.buscarPersonagem();
+        if (adventurer.getLife() <= 0) {
+            throw new InsufficientHealthException("Adventurer '" + adventurer.getName() + "' is dead and cannot attack.");
+        }
 
-    if (personagem.getVida() <= 0) {
-        throw new IllegalStateException("O personagem está morto e não pode atacar.");
+        Enemy enemy = enemyService.getCurrentEnemy();
+        if (enemy.getLife() <= 0) {
+            throw new IllegalStateException("The enemy '" + enemy.getName() + "' is already dead.");
+        }
+
+        return enemyService.receiveDamage(adventurer.getDamage());
     }
 
-    if (enemyService.buscarEnemy().getLife() <= 0) {
-        throw new IllegalStateException("O monstro já está morto.");
-    }
-
-    return enemyService.receberDano(personagem.getDano());
-}
-
-    public Personagem enemyRevidar() {
-
-        Enemy enemy = enemyService.buscarEnemy();
+    public Adventurer enemyCounterAttack() {
+        Enemy enemy = enemyService.getCurrentEnemy();
 
         if (enemy.getLife() <= 0) {
-            throw new IllegalStateException("O monstro está morto e não pode revidar.");
+            throw new IllegalStateException("The enemy '" + enemy.getName() + "' is dead and cannot counter-attack.");
         }
 
-        return personagemService.receberDano(enemy.getDamage());
+        // Uses polymorphic attack() implemented by Goblin, Skeleton, etc.
+        int enemyDamage = enemy.attack();
+        return adventurerService.receiveDamage(enemyDamage);
     }
 
-    public String turno() {
-        Enemy enemy = atacarEnemy();
+    public String executeTurn() {
+        Adventurer adventurer = adventurerService.getActiveAdventurer();
+        Enemy enemy = attackEnemy();
+
         if (enemy.getLife() == 0) {
-            return "Você derrotou o " + enemy.getName() + "!";
+            return "You defeated " + enemy.getName() + "!";
         }
-        Personagem personagem = enemyRevidar();
-        if (personagem.getVida() == 0) {
-            return "O " + enemy.getName() + " derrotou você!";
+
+        enemyCounterAttack();
+        if (adventurer.getLife() == 0) {
+            return enemy.getName() + " defeated you!";
         }
-        return "Você causou " + personagem.getDano() + " de dano no " + enemy.getName()
-                + " (vida: " + enemy.getLife() + ") e recebeu " + enemy.getDamage()
-                + " de volta (sua vida: " + personagem.getVida() + ").";
+
+        return "You dealt " + adventurer.getDamage() + " damage to " + enemy.getName()
+                + " (HP: " + enemy.getLife() + ") and took " + enemy.getDamage()
+                + " damage in return (your HP: " + adventurer.getLife() + ").";
     }
 }

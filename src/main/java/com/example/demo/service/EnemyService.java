@@ -2,30 +2,33 @@ package com.example.demo.service;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.entities.enemies.*;
+import com.example.demo.exception.CharacterNotFoundException;
+import com.example.demo.model.entities.enemies.Enemy;
+import com.example.demo.model.entities.enemies.Goblin;
 
-/**
- * MonstroService
- */
 @Service
 public class EnemyService {
 
-    private final Enemy enemy = new Goblin("Teste", 20);
+    private Enemy currentEnemy = new Goblin("Forest Goblin", 20);
 
-    public Enemy receberDano(int dano) {
-
-        int novaVida = enemy.getLife() - dano;
-
-        if (novaVida < 0) {
-            novaVida = 0;
+    public Enemy receiveDamage(int damage) {
+        if (damage < 0) {
+            throw new IllegalArgumentException("Damage cannot be negative.");
         }
 
-        enemy.setLife(novaVida);
-
+        Enemy enemy = getCurrentEnemy();
+        enemy.receiveDmg(damage);
         return enemy;
     }
 
-    public Enemy buscarEnemy() {
-        return this.enemy;
+    public Enemy getCurrentEnemy() {
+        if (currentEnemy == null) {
+            throw new CharacterNotFoundException("No active enemy in the current scenario.");
+        }
+        return this.currentEnemy;
+    }
+
+    public void setCurrentEnemy(Enemy enemy) {
+        this.currentEnemy = enemy;
     }
 }
