@@ -19,6 +19,6 @@ public class CombatController {
 
     @PostMapping("/attack")
     public ResponseEntity<String> attack() {
-        return ResponseEntity.ok(combatService.turno());
+        return ResponseEntity.ok(combatService.executeTurn());
     }
 }
