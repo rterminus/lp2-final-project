@@ -4,9 +4,12 @@ import com.example.demo.model.entities.enemies.Enemy;
 import com.example.demo.model.quests.Quest;
 import com.example.demo.model.quests.Reward;
 
+// Guarda o conteúdo de um cenário da aventura
 public class Scenario {
     private final String title;
     private final String description;
+
+    // Inimigo, missão e recompensa são opcionais e podem ser null
     private final Enemy enemy;
     private final Quest quest;
     private final Reward reward;

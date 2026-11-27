@@ -4,6 +4,7 @@ import com.example.demo.exception.InvalidDecisionException;
 import com.example.demo.model.entities.enemies.Goblin;
 import com.example.demo.model.entities.enemies.Skeleton;
 
+// Monta a narrativa e acompanha o avanço do jogador pela árvore.
 public class AdventureTree {
     private DecisionNode root;
     private DecisionNode currentNode;
@@ -21,6 +22,7 @@ public class AdventureTree {
         return currentNode;
     }
 
+    // Nos dois sentidos, uma escolha inválida mantém o nó atual.
     public Scenario moveLeft() {
         DecisionNode left = currentNode.getLeft();
         if (left == null) {
@@ -39,6 +41,7 @@ public class AdventureTree {
         return getCurrentScenario();
     }
 
+    // Reconstrói os encontros para que os inimigos voltem com a vida inicial.
     public Scenario reset() {
         root = buildTree();
         currentNode = root;
@@ -49,6 +52,7 @@ public class AdventureTree {
         return currentNode.isLeaf();
     }
 
+    // Cria primeiro as folhas, depois os nós intermediários e depos a raiz.
     private DecisionNode buildTree() {
         DecisionNode goblinLair = new DecisionNode(
                 new Scenario("Goblin Lair", "A goblin leaps out from behind the rocks and blocks your way.",

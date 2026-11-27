@@ -1,5 +1,6 @@
 package com.example.demo.model.tree;
 
+// Liga um cenário aos seus possíveis caminhos à esquerda e à direita
 public class DecisionNode {
     private final Scenario scenario;
     private final String leftOption;
@@ -21,6 +22,7 @@ public class DecisionNode {
         this.right = right;
     }
 
+    // Cada lado só tem uma opção de escolha se houver um filho correspondente.
     private static void validateOption(DecisionNode child, String option, String side) {
         if (child == null && option != null) {
             throw new IllegalArgumentException(side + " option must be null when there is no child.");
