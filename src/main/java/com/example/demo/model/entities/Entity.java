@@ -93,6 +93,13 @@ public abstract class Entity {
         return inventory;
     }
 
+    public void setInventory(Inventory<Item> inventory) {
+        if (inventory == null) {
+            throw new IllegalArgumentException("Inventory cannot be null.");
+        }
+        this.inventory = inventory;
+    }
+
     public int getDamage() {
         return damage;
     }
