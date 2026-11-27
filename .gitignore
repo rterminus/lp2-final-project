@@ -15,3 +15,5 @@ buildNumber.properties
 *.jar
 *.war
 .vscode/
+desktop.ini
+.factorypath

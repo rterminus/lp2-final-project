@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import java.util.Set;
+import java.util.List;
 
+import com.example.demo.model.equipment.Rarity;
 import com.example.demo.model.equipment.Inventory;
 import com.example.demo.model.equipment.Item;
 import com.example.demo.service.InventoryService;
@@ -49,5 +51,10 @@ public class InventoryController {
     @GetMapping("/get")
     public ResponseEntity<Set<Item>> getItems() {
         return ResponseEntity.ok(inventoryService.getItems());
+    }
+    
+    @GetMapping("/filter")
+    public ResponseEntity<List<Item>> filterByRarity(@RequestParam Rarity rarity) {
+        return ResponseEntity.ok(inventoryService.filterByRarity(rarity));
     }
 }
