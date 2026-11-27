@@ -17,9 +17,7 @@ public abstract class Entity {
     private int coins;
 
     public Entity(String name, int coins) {
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("entities.Adventurer name cannot be empty or null.");
-        }
+        validateName(name);
         if (coins < 0) {
             throw new IllegalArgumentException("Coin balance cannot be negative.");
         }
@@ -59,6 +57,17 @@ public abstract class Entity {
         return name;
     }
 
+    public void setName(String name) {
+        validateName(name);
+        this.name = name;
+    }
+
+    private static void validateName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("entities.Adventurer name cannot be empty or null.");
+        }
+    }
+
     public int getLife() {
         return life;
     }
@@ -74,6 +83,13 @@ public abstract class Entity {
         return level;
     }
 
+    public void setLevel(int level) {
+        if (level < 1) {
+            throw new IllegalArgumentException("Level must be at least 1.");
+        }
+        this.level = level;
+    }
+
     public int getCoins() {
         return this.coins;
     }
@@ -87,6 +103,13 @@ public abstract class Entity {
 
     public int getEnergy() {
         return this.energy;
+    }
+
+    public void setEnergy(int energy) {
+        if (energy < 0) {
+            throw new IllegalArgumentException("Energy cannot be negative.");
+        }
+        this.energy = energy;
     }
 
     public Inventory<Item> getInventory() {
