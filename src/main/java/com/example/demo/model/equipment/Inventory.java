@@ -19,6 +19,8 @@ public class Inventory<T> {
         if (item == null)
             throw new IllegalArgumentException("Item cannot be null.");
 
+        validateQuantity(quantity);
+
         if (items.containsKey(item)) {
             int currentQuantity = items.get(item);
             items.put(item, currentQuantity + quantity);
@@ -45,6 +47,8 @@ public class Inventory<T> {
         if (item == null)
             throw new IllegalArgumentException("Item cannot be null.");
 
+        validateQuantity(quantity);
+
         if (!items.containsKey(item))
             throw new IllegalStateException("Item not in inventory.");
 
@@ -56,6 +60,12 @@ public class Inventory<T> {
             items.remove(item);
         } else {
             items.put(item, currentQuantity - quantity);
+        }
+    }
+
+    private void validateQuantity(Integer quantity) {
+        if (quantity == null || quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero.");
         }
     }
 
