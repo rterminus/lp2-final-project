@@ -21,7 +21,7 @@ public abstract class Entity {
             throw new IllegalArgumentException("entities.Adventurer name cannot be empty or null.");
         }
         if (coins < 0) {
-            throw new IllegalArgumentException("Moedas não podem ser negativas.");
+            throw new IllegalArgumentException("Coin balance cannot be negative.");
         }
 
         this.name = name;
@@ -48,7 +48,11 @@ public abstract class Entity {
     }
 
     public void addCoins(int amount) {
-        this.coins += amount;
+        long newBalance = (long) this.coins + amount;
+        if (newBalance < 0 || newBalance > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Coin balance must be between 0 and " + Integer.MAX_VALUE + ".");
+        }
+        this.coins = (int) newBalance;
     }
 
     public String getName() {
@@ -74,6 +78,13 @@ public abstract class Entity {
         return this.coins;
     }
 
+    public void setCoins(int coins) {
+        if (coins < 0) {
+            throw new IllegalArgumentException("Coin balance cannot be negative.");
+        }
+        this.coins = coins;
+    }
+
     public int getEnergy() {
         return this.energy;
     }
@@ -84,5 +95,12 @@ public abstract class Entity {
 
     public int getDamage() {
         return damage;
+    }
+
+    public void setDamage(int damage) {
+        if (damage < 0) {
+            throw new IllegalArgumentException("Damage cannot be negative.");
+        }
+        this.damage = damage;
     }
 }
