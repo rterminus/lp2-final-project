@@ -12,9 +12,18 @@ public class Weapon extends Item {
 
     public Weapon(String name, ItemType type, Rarity rarity, int damage) {
         super(name, type, rarity);
+        validateDamage(damage);
+        this.damage = damage;
+    }
+
+    public void setDamage(int damage) {
+        validateDamage(damage);
+        this.damage = damage;
+    }
+
+    private static void validateDamage(int damage) {
         if (damage < 0) {
             throw new IllegalArgumentException("Weapon damage cannot be negative.");
         }
-        this.damage = damage;
     }
 }
