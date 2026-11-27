@@ -5,7 +5,7 @@ import com.example.demo.model.equipment.*;
 import lombok.Setter;
 
 @Setter 
-public abstract class Entity {
+public abstract class Entity implements Combatant {
     private String name;
     private int damage;
     private int life;
@@ -43,6 +43,11 @@ public abstract class Entity {
         if (this.life < 0) {
             this.life = 0;
         }
+    }
+
+    @Override
+    public boolean isAlive() {
+        return this.life > 0;
     }
 
     public void addCoins(int amount) {
