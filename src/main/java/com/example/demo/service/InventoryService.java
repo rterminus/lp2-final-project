@@ -24,6 +24,10 @@ public class InventoryService {
     }
 
     public void addItem(Item item, Integer quantity) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item cannot be null.");
+        }
+        item.validate();
         getPlayerInventory().insertItem(item, quantity);
     }
 

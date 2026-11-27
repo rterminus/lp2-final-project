@@ -49,6 +49,12 @@ public abstract class Item {
         this.rarity = rarity;
     }
 
+    public void validate() {
+        validateName(name);
+        validateType(type);
+        validateRarity(rarity);
+    }
+
     private static void validateName(String name) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("equipment.Item name cannot be empty or null.");
