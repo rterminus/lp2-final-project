@@ -25,19 +25,46 @@ public abstract class Item {
     private Rarity rarity;
 
     public Item(String name, ItemType type, Rarity rarity) {
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("equipment.Item name cannot be empty or null.");
-        }
-        if (type == null) {
-            throw new IllegalArgumentException("equipment.Item type cannot be null.");
-        }
-        if (rarity == null) {
-            throw new IllegalArgumentException("equipment.Item rarity cannot be null.");
-        }
+        validateName(name);
+        validateType(type);
+        validateRarity(rarity);
 
         this.name = name;
         this.type = type;
         this.rarity = rarity;
+    }
+
+    public void setName(String name) {
+        validateName(name);
+        this.name = name;
+    }
+
+    public void setType(ItemType type) {
+        validateType(type);
+        this.type = type;
+    }
+
+    public void setRarity(Rarity rarity) {
+        validateRarity(rarity);
+        this.rarity = rarity;
+    }
+
+    private static void validateName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("equipment.Item name cannot be empty or null.");
+        }
+    }
+
+    private static void validateType(ItemType type) {
+        if (type == null) {
+            throw new IllegalArgumentException("equipment.Item type cannot be null.");
+        }
+    }
+
+    private static void validateRarity(Rarity rarity) {
+        if (rarity == null) {
+            throw new IllegalArgumentException("equipment.Item rarity cannot be null.");
+        }
     }
 
     @Override

@@ -14,10 +14,19 @@ public class Potion extends Item implements Usable {
 
     public Potion(String name, ItemType type, Rarity rarity, int amount_heal){
         super(name, type, rarity);
+        validateHealingAmount(amount_heal);
+        this.amount_heal = amount_heal;
+    }
+
+    public void setAmount_heal(int amount_heal) {
+        validateHealingAmount(amount_heal);
+        this.amount_heal = amount_heal;
+    }
+
+    private static void validateHealingAmount(int amount_heal) {
         if (amount_heal < 0) {
             throw new IllegalArgumentException("Potion amount_heal cannot be negative.");
         }
-        this.amount_heal = amount_heal;
     }
 
     @Override
