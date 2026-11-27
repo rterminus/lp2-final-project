@@ -6,6 +6,8 @@ import lombok.Setter;
 
 @Setter 
 public abstract class Entity {
+    private static final int MAX_LIFE = 100;
+
     private String name;
     private int damage;
     private int life;
@@ -24,7 +26,7 @@ public abstract class Entity {
 
         this.name = name;
         this.level = 1;
-        this.life = 100;
+        this.life = MAX_LIFE;
         this.energy = 0;
         this.damage = 10;
         this.inventory = new Inventory<Item>();
@@ -32,17 +34,17 @@ public abstract class Entity {
     }
 
     public void heal(int amount_heal) {
-        this.life += amount_heal;
-        if (this.life > 100) {
-            this.life = 100;
+        if (amount_heal < 0) {
+            throw new IllegalArgumentException("Healing amount cannot be negative.");
         }
+        this.life += Math.min(amount_heal, MAX_LIFE - this.life);
     }
 
     public void receiveDmg(int amount_dmg) {
-        this.life -= amount_dmg;
-        if (this.life < 0) {
-            this.life = 0;
+        if (amount_dmg < 0) {
+            throw new IllegalArgumentException("Damage amount cannot be negative.");
         }
+        this.life = Math.max(0, this.life - amount_dmg);
     }
 
     public void addCoins(int amount) {
@@ -55,6 +57,13 @@ public abstract class Entity {
 
     public int getLife() {
         return life;
+    }
+
+    public void setLife(int life) {
+        if (life < 0 || life > MAX_LIFE) {
+            throw new IllegalArgumentException("Life must be between 0 and " + MAX_LIFE + ".");
+        }
+        this.life = life;
     }
 
     public int getLevel() {
