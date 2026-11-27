@@ -1,0 +1,248 @@
+{
+  "info": {
+    "name": "LP2 Final Project - RPG Adventure API",
+    "description": "Roteiro da apresentacao. Rode as requisicoes em ordem. Suba a API antes com: ./mvnw spring-boot:run",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Status do aventureiro (Arthur)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adventurer/status",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adventurer",
+            "status"
+          ]
+        }
+      }
+    },
+    {
+      "name": "2. Ver inventario",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/inventory",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "inventory"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. Atacar o inimigo (turno de combate)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/combat/attack",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "combat",
+            "attack"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Usar pocao (cura)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/items/use/Potion%20of%20Health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "items",
+            "use",
+            "Potion%20of%20Health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5. Adicionar item RARE",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/inventory/add",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "inventory",
+            "add"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Elixir\",\n  \"type\": \"CONSUMABLE\",\n  \"rarity\": \"RARE\",\n  \"amount_heal\": 60\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "6. Filtrar inventario por RARE (Stream)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/inventory/filter?rarity=RARE",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "inventory",
+            "filter"
+          ],
+          "query": [
+            {
+              "key": "rarity",
+              "value": "RARE"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "7. Filtrar inventario por COMMON (Stream)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/inventory/filter?rarity=COMMON",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "inventory",
+            "filter"
+          ],
+          "query": [
+            {
+              "key": "rarity",
+              "value": "COMMON"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "8. Arvore: cenario atual",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adventure/current",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adventure",
+            "current"
+          ]
+        }
+      }
+    },
+    {
+      "name": "9. Arvore: escolher ESQUERDA",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adventure/choose/left",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adventure",
+            "choose",
+            "left"
+          ]
+        }
+      }
+    },
+    {
+      "name": "10. Arvore: escolher ESQUERDA (chega na folha)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adventure/choose/left",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adventure",
+            "choose",
+            "left"
+          ]
+        }
+      }
+    },
+    {
+      "name": "11. Arvore: ESQUERDA na folha (erro 400 tratado)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adventure/choose/left",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adventure",
+            "choose",
+            "left"
+          ]
+        }
+      }
+    },
+    {
+      "name": "12. Arvore: reset",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adventure/reset",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adventure",
+            "reset"
+          ]
+        }
+      }
+    }
+  ]
+}
