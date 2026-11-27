@@ -15,6 +15,10 @@ public class Inventory<T> {
         insertItem(item, 1);
     }
 
+    public Map<T, Integer> getItems() {
+        return items;
+    }
+
     public void insertItem(T item, Integer quantity) {
         if (item == null)
             throw new IllegalArgumentException("Item cannot be null.");
