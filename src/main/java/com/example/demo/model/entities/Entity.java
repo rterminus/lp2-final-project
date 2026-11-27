@@ -5,7 +5,7 @@ import com.example.demo.model.equipment.*;
 import lombok.Setter;
 
 @Setter 
-public abstract class Entity {
+public abstract class Entity implements Combatant {
     private static final int MAX_LIFE = 100;
 
     private String name;
@@ -43,6 +43,11 @@ public abstract class Entity {
             throw new IllegalArgumentException("Damage amount cannot be negative.");
         }
         this.life = Math.max(0, this.life - amount_dmg);
+    }
+
+    @Override
+    public boolean isAlive() {
+        return this.life > 0;
     }
 
     public void addCoins(int amount) {

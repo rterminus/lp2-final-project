@@ -29,19 +29,20 @@ public class CombatService {
             throw new IllegalStateException("The enemy '" + enemy.getName() + "' is already dead.");
         }
 
-        return enemyService.receiveDamage(adventurer.getDamage());
+        adventurer.attack(enemy); // polimórfico: Warrior/Mage causam dano diferente
+        return enemy;
     }
 
     public Adventurer enemyCounterAttack() {
         Enemy enemy = enemyService.getCurrentEnemy();
+        Adventurer adventurer = adventurerService.getActiveAdventurer();
 
         if (enemy.getLife() <= 0) {
             throw new IllegalStateException("The enemy '" + enemy.getName() + "' is dead and cannot counter-attack.");
         }
 
-        // Uses polymorphic attack() implemented by Goblin, Skeleton, etc.
-        int enemyDamage = enemy.attack();
-        return adventurerService.receiveDamage(enemyDamage);
+        enemy.attack(adventurer);
+        return adventurer;
     }
 
     public String executeTurn() {

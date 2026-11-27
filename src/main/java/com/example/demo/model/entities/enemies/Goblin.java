@@ -1,13 +1,15 @@
 package com.example.demo.model.entities.enemies;
 
+import com.example.demo.model.entities.Combatant;
+
 public class Goblin extends Enemy {
     public Goblin(String name, int coins) {
         super(name, coins);
     }
 
     @Override
-    public int attack() {
+    public void attack(Combatant target) {
         System.out.println("Hahaha sou um Goblin malvado atacando!!!");
-        return this.getDamage();
+        target.receiveDmg(this.getDamage());
     }
 }

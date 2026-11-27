@@ -16,6 +16,11 @@ public class Adventurer extends Entity {
         this.activeQuests = new HashSet<>();
     }
 
+    @Override
+    public void attack(Combatant target) {
+        target.receiveDmg(this.getDamage());
+    }
+
     public void dialogue() {
         System.out.println("Talking...");
     }

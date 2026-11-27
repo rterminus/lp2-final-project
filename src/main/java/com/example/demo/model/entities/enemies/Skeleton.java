@@ -1,14 +1,16 @@
 package com.example.demo.model.entities.enemies;
 
+import com.example.demo.model.entities.Combatant;
+
 public class Skeleton extends Enemy {
     public Skeleton(String name, int coins) {
         super(name, coins);
     }
 
     @Override
-    public int attack() {
+    public void attack(Combatant target) {
         System.out.println("*Barulhos de esqueleto...*");
         System.out.println("*Barulhos de... FLECHA!*");
-        return this.getDamage();
+        target.receiveDmg(this.getDamage());
     }
 }
