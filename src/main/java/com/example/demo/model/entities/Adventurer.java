@@ -99,7 +99,7 @@ public class Adventurer extends Entity {
         if (itemToUse instanceof Usable) {
             ((Usable) itemToUse).use(this);
 
-            this.getInventory().removeItem(itemToUse);
+            this.getInventory().removeItem(itemToUse, 1);
 
         } else {
             System.out.println("> You cannot use the " + itemToUse.getName() + " like that!");
