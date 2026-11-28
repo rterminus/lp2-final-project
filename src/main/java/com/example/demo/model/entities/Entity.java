@@ -6,6 +6,8 @@ import lombok.Setter;
 
 @Setter 
 public abstract class Entity implements Combatant {
+    private static final int MAX_LIFE = 100;
+
     private String name;
     private int damage;
     private int life;
@@ -15,16 +17,14 @@ public abstract class Entity implements Combatant {
     private int coins;
 
     public Entity(String name, int coins) {
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("entities.Adventurer name cannot be empty or null.");
-        }
+        validateName(name);
         if (coins < 0) {
-            throw new IllegalArgumentException("Moedas não podem ser negativas.");
+            throw new IllegalArgumentException("Coin balance cannot be negative.");
         }
 
         this.name = name;
         this.level = 1;
-        this.life = 100;
+        this.life = MAX_LIFE;
         this.energy = 0;
         this.damage = 10;
         this.inventory = new Inventory<Item>();
@@ -32,17 +32,17 @@ public abstract class Entity implements Combatant {
     }
 
     public void heal(int amount_heal) {
-        this.life += amount_heal;
-        if (this.life > 100) {
-            this.life = 100;
+        if (amount_heal < 0) {
+            throw new IllegalArgumentException("Healing amount cannot be negative.");
         }
+        this.life += Math.min(amount_heal, MAX_LIFE - this.life);
     }
 
     public void receiveDmg(int amount_dmg) {
-        this.life -= amount_dmg;
-        if (this.life < 0) {
-            this.life = 0;
+        if (amount_dmg < 0) {
+            throw new IllegalArgumentException("Damage amount cannot be negative.");
         }
+        this.life = Math.max(0, this.life - amount_dmg);
     }
 
     @Override
@@ -51,34 +51,91 @@ public abstract class Entity implements Combatant {
     }
 
     public void addCoins(int amount) {
-        this.coins += amount;
+        long newBalance = (long) this.coins + amount;
+        if (newBalance < 0 || newBalance > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Coin balance must be between 0 and " + Integer.MAX_VALUE + ".");
+        }
+        this.coins = (int) newBalance;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        validateName(name);
+        this.name = name;
+    }
+
+    private static void validateName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("entities.Adventurer name cannot be empty or null.");
+        }
+    }
+
     public int getLife() {
         return life;
+    }
+
+    public void setLife(int life) {
+        if (life < 0 || life > MAX_LIFE) {
+            throw new IllegalArgumentException("Life must be between 0 and " + MAX_LIFE + ".");
+        }
+        this.life = life;
     }
 
     public int getLevel() {
         return level;
     }
 
+    public void setLevel(int level) {
+        if (level < 1) {
+            throw new IllegalArgumentException("Level must be at least 1.");
+        }
+        this.level = level;
+    }
+
     public int getCoins() {
         return this.coins;
+    }
+
+    public void setCoins(int coins) {
+        if (coins < 0) {
+            throw new IllegalArgumentException("Coin balance cannot be negative.");
+        }
+        this.coins = coins;
     }
 
     public int getEnergy() {
         return this.energy;
     }
 
+    public void setEnergy(int energy) {
+        if (energy < 0) {
+            throw new IllegalArgumentException("Energy cannot be negative.");
+        }
+        this.energy = energy;
+    }
+
     public Inventory<Item> getInventory() {
         return inventory;
     }
 
+    public void setInventory(Inventory<Item> inventory) {
+        if (inventory == null) {
+            throw new IllegalArgumentException("Inventory cannot be null.");
+        }
+        this.inventory = inventory;
+    }
+
     public int getDamage() {
         return damage;
+    }
+
+    public void setDamage(int damage) {
+        if (damage < 0) {
+            throw new IllegalArgumentException("Damage cannot be negative.");
+        }
+        this.damage = damage;
     }
 }

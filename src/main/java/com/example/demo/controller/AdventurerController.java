@@ -17,6 +17,8 @@ import com.example.demo.service.AdventurerService;
 @RequestMapping("/adventurer")
 public class AdventurerController {
 
+    public record CreateAdventurerRequest(String name, int coins) {}
+
     private final AdventurerService adventurerService;
 
     public AdventurerController(AdventurerService adventurerService) {
@@ -44,7 +46,8 @@ public class AdventurerController {
     }
 
     @PostMapping
-    public ResponseEntity<Adventurer> createAdventurer(@RequestBody Adventurer adventurer) {
+    public ResponseEntity<Adventurer> createAdventurer(@RequestBody CreateAdventurerRequest request) {
+        Adventurer adventurer = new Adventurer(request.name(), request.coins());
         return ResponseEntity.ok(adventurerService.registerAdventurer(adventurer));
     }
 

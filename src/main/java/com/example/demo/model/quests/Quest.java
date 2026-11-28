@@ -49,7 +49,7 @@ public class Quest {
             throw new IllegalStateException("Required item not yet obtained.");
 
         this.questState = QuestState.COMPLETED;
-        inventory.removeItem(requiredItem);
+        inventory.removeItem(requiredItem, 1);
 
         return reward;
     }

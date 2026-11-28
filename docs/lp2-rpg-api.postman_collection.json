@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "LP2 Final Project - RPG Adventure API",
-    "description": "Roteiro da apresentacao. Rode as requisicoes em ordem. Suba a API antes com: ./mvnw spring-boot:run",
+    "description": "Inicie a API com ./mvnw spring-boot:run e execute as requisições em ordem. Em uma aplicação recém-iniciada, Arthur está ativo e tem duas Potion of Health. Se outro aventureiro estiver ativo, use POST /adventurer/select/Arthur e confira o estoque. O reset recria os encontros e preserva o estado do aventureiro.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -12,7 +12,7 @@
   ],
   "item": [
     {
-      "name": "1. Status do aventureiro (Arthur)",
+      "name": "1. Consultar aventureiro ativo (Arthur)",
       "request": {
         "method": "GET",
         "header": [],
@@ -29,23 +29,77 @@
       }
     },
     {
-      "name": "2. Ver inventario",
+      "name": "2. Reiniciar a aventura",
       "request": {
-        "method": "GET",
+        "method": "POST",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/inventory",
+          "raw": "{{baseUrl}}/adventure/reset",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
-            "inventory"
+            "adventure",
+            "reset"
           ]
         }
       }
     },
     {
-      "name": "3. Atacar o inimigo (turno de combate)",
+      "name": "3. Consultar cenário inicial (Dark Forest)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adventure/current",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adventure",
+            "current"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Escolher esquerda (Goblin Cave)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adventure/choose/left",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adventure",
+            "choose",
+            "left"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5. Escolher esquerda (Goblin Lair)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adventure/choose/left",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adventure",
+            "choose",
+            "left"
+          ]
+        }
+      }
+    },
+    {
+      "name": "6. Atacar Lair Goblin",
       "request": {
         "method": "POST",
         "header": [],
@@ -62,7 +116,7 @@
       }
     },
     {
-      "name": "4. Usar pocao (cura)",
+      "name": "7. Usar poção de cura",
       "request": {
         "method": "POST",
         "header": [],
@@ -80,7 +134,23 @@
       }
     },
     {
-      "name": "5. Adicionar item RARE",
+      "name": "8. Consultar inventário",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/inventory",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "inventory"
+          ]
+        }
+      }
+    },
+    {
+      "name": "9. Adicionar Elixir de raridade RARE",
       "request": {
         "method": "POST",
         "header": [
@@ -90,13 +160,19 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/inventory/add",
+          "raw": "{{baseUrl}}/inventory/add?quantity=1",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
             "inventory",
             "add"
+          ],
+          "query": [
+            {
+              "key": "quantity",
+              "value": "1"
+            }
           ]
         },
         "body": {
@@ -111,7 +187,7 @@
       }
     },
     {
-      "name": "6. Filtrar inventario por RARE (Stream)",
+      "name": "10. Filtrar inventário por raridade RARE",
       "request": {
         "method": "GET",
         "header": [],
@@ -134,47 +210,7 @@
       }
     },
     {
-      "name": "7. Filtrar inventario por COMMON (Stream)",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/inventory/filter?rarity=COMMON",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "inventory",
-            "filter"
-          ],
-          "query": [
-            {
-              "key": "rarity",
-              "value": "COMMON"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "8. Arvore: cenario atual",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/adventure/current",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adventure",
-            "current"
-          ]
-        }
-      }
-    },
-    {
-      "name": "9. Arvore: escolher ESQUERDA",
+      "name": "11. Escolher esquerda em uma folha (HTTP 400 esperado)",
       "request": {
         "method": "POST",
         "header": [],
@@ -187,59 +223,6 @@
             "adventure",
             "choose",
             "left"
-          ]
-        }
-      }
-    },
-    {
-      "name": "10. Arvore: escolher ESQUERDA (chega na folha)",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/adventure/choose/left",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adventure",
-            "choose",
-            "left"
-          ]
-        }
-      }
-    },
-    {
-      "name": "11. Arvore: ESQUERDA na folha (erro 400 tratado)",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/adventure/choose/left",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adventure",
-            "choose",
-            "left"
-          ]
-        }
-      }
-    },
-    {
-      "name": "12. Arvore: reset",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/adventure/reset",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adventure",
-            "reset"
           ]
         }
       }

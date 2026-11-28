@@ -1,5 +1,6 @@
 package com.example.demo.model.equipment;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,12 +17,14 @@ public class Inventory<T> {
     }
 
     public Map<T, Integer> getItems() {
-        return items;
+        return Collections.unmodifiableMap(items);
     }
 
     public void insertItem(T item, Integer quantity) {
         if (item == null)
             throw new IllegalArgumentException("Item cannot be null.");
+
+        validateQuantity(quantity);
 
         if (items.containsKey(item)) {
             int currentQuantity = items.get(item);
@@ -49,6 +52,8 @@ public class Inventory<T> {
         if (item == null)
             throw new IllegalArgumentException("Item cannot be null.");
 
+        validateQuantity(quantity);
+
         if (!items.containsKey(item))
             throw new IllegalStateException("Item not in inventory.");
 
@@ -63,12 +68,18 @@ public class Inventory<T> {
         }
     }
 
+    private void validateQuantity(Integer quantity) {
+        if (quantity == null || quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero.");
+        }
+    }
+
     public boolean hasItem(T item) {
         return items.containsKey(item);
     }
 
     public java.util.Set<T> getItemsKeys() {
-        return this.items.keySet();
+        return Collections.unmodifiableSet(items.keySet());
     }
 
     @Override

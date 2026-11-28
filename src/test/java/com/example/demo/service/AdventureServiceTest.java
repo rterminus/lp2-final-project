@@ -14,7 +14,7 @@ class AdventureServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new AdventureService();
+        service = new AdventureService(new EnemyService());
     }
 
     @Test
