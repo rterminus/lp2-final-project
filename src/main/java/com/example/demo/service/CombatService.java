@@ -19,7 +19,12 @@ public class CombatService {
 
     public Enemy attackEnemy() {
         Adventurer adventurer = adventurerService.getActiveAdventurer();
+        Enemy enemy = getAttackTarget(adventurer);
+        adventurer.attack(enemy); // polimórfico: Warrior/Mage causam dano diferente
+        return enemy;
+    }
 
+    private Enemy getAttackTarget(Adventurer adventurer) {
         if (adventurer.getLife() <= 0) {
             throw new InsufficientHealthException("Adventurer '" + adventurer.getName() + "' is dead and cannot attack.");
         }
@@ -29,7 +34,6 @@ public class CombatService {
             throw new IllegalStateException("The enemy '" + enemy.getName() + "' is already dead.");
         }
 
-        adventurer.attack(enemy); // polimórfico: Warrior/Mage causam dano diferente
         return enemy;
     }
 
@@ -47,19 +51,24 @@ public class CombatService {
 
     public String executeTurn() {
         Adventurer adventurer = adventurerService.getActiveAdventurer();
-        Enemy enemy = attackEnemy();
+        Enemy enemy = getAttackTarget(adventurer);
+        int enemyLifeBefore = enemy.getLife();
+        adventurer.attack(enemy);
+        int damageDealt = enemyLifeBefore - enemy.getLife();
 
         if (enemy.getLife() == 0) {
             return "You defeated " + enemy.getName() + "!";
         }
 
+        int adventurerLifeBefore = adventurer.getLife();
         enemyCounterAttack();
+        int damageTaken = adventurerLifeBefore - adventurer.getLife();
         if (adventurer.getLife() == 0) {
             return enemy.getName() + " defeated you!";
         }
 
-        return "You dealt " + adventurer.getDamage() + " damage to " + enemy.getName()
-                + " (HP: " + enemy.getLife() + ") and took " + enemy.getDamage()
+        return "You dealt " + damageDealt + " damage to " + enemy.getName()
+                + " (HP: " + enemy.getLife() + ") and took " + damageTaken
                 + " damage in return (your HP: " + adventurer.getLife() + ").";
     }
 }
