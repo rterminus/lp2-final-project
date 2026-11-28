@@ -11,16 +11,21 @@ API REST em Spring Boot com combate, inventário, quests e uma
 
 ## Requisitos
 - Java 17 ou superior
-- Maven (ou o `./mvnw` incluído no projeto)
+- Maven Wrapper incluído no repositório. O primeiro uso precisa de acesso ao Maven Central.
 
 ## Como executar
-```
+
+Na raiz do repositório:
+
+```bash
 ./mvnw spring-boot:run
 ```
-A API sobe em http://localhost:8080
+
+A API fica disponível em `http://localhost:8080`.
 
 ## Como rodar os testes
-```
+
+```bash
 ./mvnw test
 ```
 
