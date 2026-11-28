@@ -1,5 +1,6 @@
 package com.example.demo.model.equipment;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ public class Inventory<T> {
     }
 
     public Map<T, Integer> getItems() {
-        return items;
+        return Collections.unmodifiableMap(items);
     }
 
     public void insertItem(T item, Integer quantity) {
@@ -78,7 +79,7 @@ public class Inventory<T> {
     }
 
     public java.util.Set<T> getItemsKeys() {
-        return this.items.keySet();
+        return Collections.unmodifiableSet(items.keySet());
     }
 
     @Override
