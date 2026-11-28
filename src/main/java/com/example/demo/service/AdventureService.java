@@ -15,14 +15,31 @@ public class AdventureService {
                                  Enemy enemy, boolean finished) {}
 
     private final AdventureTree tree = new AdventureTree();
+    private final EnemyService enemyService;
+
+    public AdventureService(EnemyService enemyService) {
+        this.enemyService = enemyService;
+        enemyService.setCurrentEnemy(tree.getCurrentScenario().getEnemy());
+    }
 
     public AdventureState getCurrent() { return toState(); }
 
-    public AdventureState chooseLeft()  { tree.moveLeft();  return toState(); }
+    public AdventureState chooseLeft() {
+        return updateEncounter(tree.moveLeft());
+    }
 
-    public AdventureState chooseRight() { tree.moveRight(); return toState(); }
+    public AdventureState chooseRight() {
+        return updateEncounter(tree.moveRight());
+    }
 
-    public AdventureState reset()       { tree.reset();     return toState(); }
+    public AdventureState reset() {
+        return updateEncounter(tree.reset());
+    }
+
+    private AdventureState updateEncounter(Scenario scenario) {
+        enemyService.setCurrentEnemy(scenario.getEnemy());
+        return toState();
+    }
 
     private AdventureState toState() {
         Scenario s = tree.getCurrentScenario();
